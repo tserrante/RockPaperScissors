@@ -2,9 +2,10 @@ function game() {
     let roundCount = 0;
     let playerScore = 0;
     let computerScore = 0;
-    let tieCounter = 0;
+    //let tieCounter = 0;
     let result;
     const playerChoices = initPlayerChoices();
+    const winBanner = document.getElementById('winBanner');
 
     playerChoices.forEach(button => {
         button.addEventListener('click', function() {
@@ -17,8 +18,10 @@ function game() {
             result = roundResult(playerSelection, computerSelection);
 
             scoreBoard();
-
+            winBanner.innerText = result;
+            winBanner.classList.remove('hidden');
             if (roundCount === 10) {
+                //winBanner.classList.add('hidden');
                 gameOver();
             }
 
@@ -87,12 +90,9 @@ function game() {
             computerScore++;
             computerElem.innerText = `${0 + computerScore}`;
         }
-        if (result === 'Tie!') { tieCounter++; }
+        //if (result === 'Tie!') { tieCounter++; }
 
 
-
-        console.log(result + '\n');
-        console.log('Round: ' + (roundCount + 1));
         roundCount++;
         movesLeft.innerText = `Moves Left: ${10-roundCount}`;
 
@@ -112,12 +112,12 @@ function game() {
         overMsg.innerText = "Game Over!";
 
         if (playerScore > computerScore) {
-            resultMsg.innerText = "Player Wins the Game!";
+            winBanner.innerText = "Player Wins the Game!";
         }
         if (playerScore < computerScore)
-            resultMsg.innerText = "Computer Wins the Game!";
-        else
-            resultMsg.innerText = "Tied Game!";
+            winBanner.innerText = "Computer Wins the Game!";
+        if (playerScore === computerScore)
+            winBanner.innerText = "Tied Game!";
 
         restartMsg.classList.add("restartBtn");
         restartMsg.innerText = "Restart Game?";

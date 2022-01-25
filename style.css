@@ -54,9 +54,9 @@ body {
     margin-right: auto;
 }
 
-.rock,
-.paper,
-.scissor {
+#rock,
+#paper,
+#scissors {
     padding: 0.8rem;
     width: 100px;
     border-radius: 10px;
@@ -72,6 +72,21 @@ body {
     width: fit-content;
     margin: auto;
     margin-top: 2em;
+}
+
+.restartBtn {
+    display: flex;
+    margin-top: 2rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.8rem;
+    width: fit-content;
+    border-radius: 10px;
+    background: green;
+    outline: none;
+    border-color: green;
+    border: none;
+    cursor: pointer;
 }
 
 

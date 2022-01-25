@@ -18,7 +18,9 @@ function game() {
 
             scoreBoard();
 
-
+            if (roundCount === 10) {
+                gameOver();
+            }
 
         });
     });
@@ -68,7 +70,7 @@ function game() {
             return 'Computer Wins!';
         }
 
-        return 'Invalid selection, round goes to opponent!';
+        return 'Invalid selection, round goes to computer!';
 
     }
 
@@ -76,13 +78,12 @@ function game() {
         const playerElem = document.querySelector(".p-count");
         const computerElem = document.querySelector(".c-count");
         const movesLeft = document.querySelector('.movesLeft');
-        movesLeft.innerText = `Moves Left: ${10-roundCount}`;
 
         if (result === 'Player Wins!') {
             playerScore++;
             playerElem.innerText = `${0 + playerScore}`;
         }
-        if (result === 'Computer Wins!' || result === 'Invalid selection, round goes to opponent!') {
+        if (result === 'Computer Wins!' || result === 'Invalid selection, round goes to computer!') {
             computerScore++;
             computerElem.innerText = `${0 + computerScore}`;
         }
@@ -93,19 +94,36 @@ function game() {
         console.log(result + '\n');
         console.log('Round: ' + (roundCount + 1));
         roundCount++;
+        movesLeft.innerText = `Moves Left: ${10-roundCount}`;
 
+    }
 
-        console.log("Player Score: " + playerScore);
-        console.log("Opponent Score: " + computerScore);
-        console.log("Tied Rounds: " + tieCounter);
-        console.log("Total Rounds: " + roundCount);
+    function gameOver() {
+        const overMsg = document.querySelector('#chooseBanner');
+        const resultMsg = document.querySelector('.result');
+        const restartMsg = document.querySelector('.restart');
+        const movesLeft = document.querySelector('.movesLeft');
+        playerChoices.forEach(option => {
+            option.style.display = 'none';
+        })
 
-        if (playerScore > computerScore)
-            console.log("Player Wins the Game!");
+        movesLeft.style.display = 'none';
+
+        overMsg.innerText = "Game Over!";
+
+        if (playerScore > computerScore) {
+            resultMsg.innerText = "Player Wins the Game!";
+        }
         if (playerScore < computerScore)
-            console.log("Opponent Wins the Game!");
+            resultMsg.innerText = "Computer Wins the Game!";
         else
-            console.log("Tied Game!");
+            resultMsg.innerText = "Tied Game!";
+
+        restartMsg.classList.add("restartBtn");
+        restartMsg.innerText = "Restart Game?";
+        restartMsg.addEventListener('click', () => {
+            window.location.reload();
+        })
     }
 
 }

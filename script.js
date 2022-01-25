@@ -1,69 +1,91 @@
-function computerPlay() {
-    let min = 0;
-    let max = 3;
-
-    return Math.round((Math.random() * (max - min)) + min);
-}
-
-function playRound(p, c) {
-
-    p = p.toLowerCase();
-
-    //  Tie conditions
-    if (p === 'rock' && c === 'rock') {
-        return 'Tie!';
-    }
-    if (p === 'paper' && c === 'paper') {
-        return 'Tie!';
-    }
-    if (p === 'scissors' && c === 'scissors') {
-        return 'Tie!';
-    }
-
-    //  Player win conditions
-    if (p === 'rock' && c === 'scissors') {
-        return 'Player Wins!';
-    }
-    if (p === 'paper' && c === 'rock') {
-        return 'Player Wins!';
-    }
-    if (p === 'scissors' && c === 'paper') {
-        return 'Player Wins!';
-    }
-
-    //  Player lose conditions
-    if (p === 'rock' && c === 'paper') {
-        return 'Computer Wins!';
-    }
-    if (p === 'paper' && c === 'scissors') {
-        return 'Computer Wins!';
-    }
-    if (p === 'scissors' && c === 'rock') {
-        return 'Computer Wins!';
-    }
-
-    return 'Invalid selection, round goes to opponent!';
-
-}
-
-function playGame() {
+function game() {
     let roundCount = 0;
-    let playerSelection;
-    let computerSelection;
     let playerScore = 0;
     let computerScore = 0;
     let tieCounter = 0;
-    let choices = ['rock', 'paper', 'scissors'];
+    let result;
+    const playerChoices = initPlayerChoices();
 
-    while (roundCount < 10) {
+    playerChoices.forEach(button => {
+        button.addEventListener('click', function() {
 
-        playerSelection = prompt("Rock, Paper, Scissors?");
-        computerSelection = choices[computerPlay()];
+            let playerSelection = button.textContent.toLowerCase();
 
-        let result = playRound(playerSelection, computerSelection);
+            const computerChoices = ['rock', 'paper', 'scissors'];
+            const computerSelection = computerChoices[Math.floor(Math.random() * 3)];
 
-        if (result === 'Player Wins!') { playerScore++; }
-        if (result === 'Computer Wins!' || result === 'Invalid selection, round goes to opponent!') { computerScore++; }
+            result = roundResult(playerSelection, computerSelection);
+
+            scoreBoard();
+
+
+
+        });
+    });
+
+    function initPlayerChoices() {
+        let rockBtn = document.querySelector('#rock');
+        let paperBtn = document.querySelector('#paper');
+        let scissorsBtn = document.querySelector('#scissors');
+
+        return [rockBtn, paperBtn, scissorsBtn];
+    }
+
+    function roundResult(p, c) {
+
+        //p = p.toLowerCase();
+
+        //  Tie conditions
+        if (p === 'rock' && c === 'rock') {
+            return 'Tie!';
+        }
+        if (p === 'paper' && c === 'paper') {
+            return 'Tie!';
+        }
+        if (p === 'scissors' && c === 'scissors') {
+            return 'Tie!';
+        }
+
+        //  Player win conditions
+        if (p === 'rock' && c === 'scissors') {
+            return 'Player Wins!';
+        }
+        if (p === 'paper' && c === 'rock') {
+            return 'Player Wins!';
+        }
+        if (p === 'scissors' && c === 'paper') {
+            return 'Player Wins!';
+        }
+
+        //  Player lose conditions
+        if (p === 'rock' && c === 'paper') {
+            return 'Computer Wins!';
+        }
+        if (p === 'paper' && c === 'scissors') {
+            return 'Computer Wins!';
+        }
+        if (p === 'scissors' && c === 'rock') {
+            return 'Computer Wins!';
+        }
+
+        return 'Invalid selection, round goes to opponent!';
+
+    }
+
+    function scoreBoard() {
+        const playerElem = document.querySelector(".p-count");
+        const computerElem = document.querySelector(".c-count");
+        const movesLeft = document.querySelector('.movesLeft');
+        movesLeft.innerText = `Moves Left: ${10-roundCount}`;
+
+        if (result === 'Player Wins!') {
+            playerScore++;
+            playerElem.innerText = `${0 + playerScore}`;
+        }
+        if (result === 'Computer Wins!' || result === 'Invalid selection, round goes to opponent!') {
+            computerScore++;
+            computerElem.innerText = `${0 + computerScore}`;
+        }
         if (result === 'Tie!') { tieCounter++; }
 
 
@@ -71,22 +93,21 @@ function playGame() {
         console.log(result + '\n');
         console.log('Round: ' + (roundCount + 1));
         roundCount++;
+
+
+        console.log("Player Score: " + playerScore);
+        console.log("Opponent Score: " + computerScore);
+        console.log("Tied Rounds: " + tieCounter);
+        console.log("Total Rounds: " + roundCount);
+
+        if (playerScore > computerScore)
+            console.log("Player Wins the Game!");
+        if (playerScore < computerScore)
+            console.log("Opponent Wins the Game!");
+        else
+            console.log("Tied Game!");
     }
-
-    console.log("Player Score: " + playerScore);
-    console.log("Opponent Score: " + computerScore);
-    console.log("Tied Rounds: " + tieCounter);
-    console.log("Total Rounds: " + roundCount);
-
-    if (playerScore > computerScore)
-        console.log("Player Wins the Game!");
-    if (playerScore < computerScore)
-        console.log("Opponent Wins the Game!");
-    else
-        console.log("Tied Game!");
-
-
 
 }
 
-playGame();
+game();
